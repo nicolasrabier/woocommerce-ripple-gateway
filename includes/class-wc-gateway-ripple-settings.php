@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
  */
 if (!class_exists('RippleSettings')) {
 
-    class RippleSettings
+    class WC_Gateway_Ripple_Settings
     {
 
         public static function fields()
@@ -45,7 +45,7 @@ if (!class_exists('RippleSettings')) {
                     'show_prices' => array(
                         'title'   => __('Convert prices', 'woocommerce-ripple-gateway'),
                         'type'    => 'checkbox',
-                        'label'   => __('Add prices in XRP', 'woocommerce-ripple-gateway'),
+                        'label'   => __('Add prices in XRP //TODO: feature not effective enough. Slow down dramatically website performance' , 'woocommerce-ripple-gateway'),
                         'default' => 'no',
 
                     ),

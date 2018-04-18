@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 /**
  * Ajax class
  */
-class RippleAjax
+class WC_Gateway_Ripple_Ajax
 {
 
     private static $instance;
@@ -50,7 +50,7 @@ class RippleAjax
             exit();
         }
 
-        $ra     = new RippleApi($options['address']);
+        $ra     = new WC_Gateway_Ripple_Api($options['address']);
         $result = $ra->findByDestinationTag($destination_tag);
 
         $result['match'] = $result['amount'] == $payment_total ? true : false;
@@ -61,4 +61,4 @@ class RippleAjax
 
 } 
 
-RippleAjax::getInstance();
+WC_Gateway_Ripple_Ajax::getInstance();

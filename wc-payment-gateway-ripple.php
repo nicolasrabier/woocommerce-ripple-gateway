@@ -1,13 +1,13 @@
 <?php
 
 /**
- * WooCommerce Ripple Gateway
+ * WooCommerce Payment Gateway Ripple
  *
- * Plugin Name: WooCommerce Ripple Gateway
- * Plugin URI: www.q-invoice.com
+ * Plugin Name: WooCommerce Payment Gateway Ripple
+ * Plugin URI: www.nicolasrabier.com
  * Description: Show prices in XRP and accept Ripple payments in your woocommerce webshop
  * Version: 0.0.1
- * Author: Casper Mekel
+ * Author: Nicolas Rabier
  * License: GPLv2 or later
  * License URI: http://www.opensource.org/licenses/gpl-license.php
  * Text Domain: woocommerce-ripple-gateway
@@ -34,9 +34,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!class_exists('WcRipple')) {
+if (!class_exists('WC_Payment_Gateway_Ripple')) {
 
-    class WcRipple
+    class WC_Payment_Gateway_Ripple
     {
 
         private static $instance;
@@ -73,18 +73,18 @@ if (!class_exists('WcRipple')) {
                 return;
             }
 
-            if (class_exists('WC_Ripple_Gateway')) {
+            if (class_exists('WC_Gateway_Ripple')) {
 	            return;
 	        }
 
 	        /*
 	         * Include gateway classes
 	         * */
-	        include_once plugin_basename('includes/class-ripple-gateway.php');
-	        include_once plugin_basename('includes/class-ripple-api.php');
-	        include_once plugin_basename('includes/class-ripple-exchange.php');
-	        include_once plugin_basename('includes/class-ripple-settings.php');
-	        include_once plugin_basename('includes/class-ripple-ajax.php');
+	        include_once plugin_basename('includes/class-wc-gateway-ripple.php');
+	        include_once plugin_basename('includes/class-wc-gateway-ripple-api.php');
+	        include_once plugin_basename('includes/class-wc-gateway-ripple-exchange.php');
+	        include_once plugin_basename('includes/class-wc-gateway-ripple-settings.php');
+	        include_once plugin_basename('includes/class-wc-gateway-ripple-ajax.php');
 
 	        add_filter('woocommerce_payment_gateways', array($this, 'addToGateways'));
 	        
@@ -101,7 +101,7 @@ if (!class_exists('WcRipple')) {
 
 	    public static function addToGateways($gateways)
 	    {
-	        $gateways['ripple'] = 'WcRippleGateway';
+	        $gateways['ripple'] = 'WC_Gateway_Ripple';
 	        return $gateways;
 	    }
 
@@ -143,7 +143,7 @@ if (!class_exists('WcRipple')) {
 
 	        if ($options['show_prices'] == 'yes') {
 
-	            $xrp_price = round(RippleExchange::convert($currency, $price), 2, PHP_ROUND_HALF_UP);
+	            $xrp_price = round(WC_Gateway_Ripple_Exchange::convert($currency, $price), 2, PHP_ROUND_HALF_UP);
 	            if ($xrp_price) {
 	                $new_price_string = $price_string . '&nbsp;(<span class="woocommerce-price-amount amount">' . $xrp_price . '&nbsp;</span><span class="woocommerce-price-currencySymbol">XRP)</span>';
 	                return $new_price_string;
@@ -156,4 +156,4 @@ if (!class_exists('WcRipple')) {
 
 }
 
- WcRipple::getInstance();
+ WC_Payment_Gateway_Ripple::getInstance();

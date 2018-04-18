@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 /**
  * API class
  */
-class RippleApi
+class WC_Gateway_Ripple_Api
 {
 
     private $address;

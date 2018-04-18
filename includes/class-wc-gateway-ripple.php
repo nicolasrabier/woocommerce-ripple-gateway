@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 /**
  * Gateway class
  */
-class WcRippleGateway extends WC_Payment_Gateway
+class WC_Gateway_Ripple extends WC_Payment_Gateway
 {
     public $id;
     public $title;
@@ -43,7 +43,7 @@ class WcRippleGateway extends WC_Payment_Gateway
     public function initFormFields()
     {
         parent::init_form_fields();
-        $this->form_fields = RippleSettings::fields();
+        $this->form_fields = WC_Gateway_Ripple_Settings::fields();
     }
 
     public function initSettings()
@@ -83,7 +83,7 @@ class WcRippleGateway extends WC_Payment_Gateway
 
         $user       = wp_get_current_user();
         // print_r($woocommerce->cart->get_order());
-        $total_converted = RippleExchange::convert(get_woocommerce_currency(), $this->get_order_total());
+        $total_converted = WC_Gateway_Ripple_Exchange::convert(get_woocommerce_currency(), $this->get_order_total());
 
         $destination_tag = Date('d') . hexdec( substr(sha1( key ($woocommerce->cart->cart_contents )  ), 0, 5) );
 
@@ -97,7 +97,7 @@ class WcRippleGateway extends WC_Payment_Gateway
 		$url = "https://ripple.com//send?to=". $this->address ."&dt=". $destination_tag ."&amount=". $total_converted;
 
         echo '<div class="ripple-container">';
-        echo '<label class="ripple-label"><img class="ripple-logo" src="'. plugins_url('assets/images/ripple_logo.png', WcRipple::$plugin_basename) .'"/ width="200px"></label>';
+        echo '<label class="ripple-label"><img class="ripple-logo" src="'. plugins_url('assets/images/ripple_logo.png', WC_Payment_Gateway_Ripple::$plugin_basename) .'"/ width="200px"></label>';
         echo '<div>';
 
         
@@ -111,7 +111,7 @@ class WcRippleGateway extends WC_Payment_Gateway
 
         echo '<div class="separator"></div>';
         echo '<div class="ripple-container">';
-        echo '<label class="ripple-label">' . __('amount', 'woocommerce-ripple-gateway') . ' (1 '. get_woocommerce_currency() .' = '.RippleExchange::convert(get_woocommerce_currency(),1) .' XRP)</label>';
+        echo '<label class="ripple-label">' . __('amount', 'woocommerce-ripple-gateway') . ' (1 '. get_woocommerce_currency() .' = '.WC_Gateway_Ripple_Exchange::convert(get_woocommerce_currency(),1) .' XRP)</label>';
         echo '<p class="ripple-amount"><span class="copy" data-success-label="'. __('copied','woocommerce-ripple-gateway') .'" data-clipboard-text="' . esc_attr($total_converted) . '">' . esc_attr($total_converted) . '</span></p>';
         echo '</div>';
         echo '</div>';
@@ -161,7 +161,7 @@ class WcRippleGateway extends WC_Payment_Gateway
                 );
         }
 
-	    $ra = new RippleApi($this->address);
+	    $ra = new WC_Gateway_Ripple_Api($this->address);
 	    $transaction = $ra->getTransaction( $_POST['tx_hash']);
 
 	    // print_r($transaction);
@@ -204,14 +204,14 @@ class WcRippleGateway extends WC_Payment_Gateway
     public function paymentScripts()
     {
     	
-        wp_enqueue_script('qrcode', plugins_url('assets/js/jquery.qrcode.min.js', WcRipple::$plugin_basename), array('jquery'), WcRipple::$version, true);
-        wp_enqueue_script('initialize', plugins_url('assets/js/jquery.initialize.js', WcRipple::$plugin_basename), array('jquery'), WcRipple::$version, true);
+        wp_enqueue_script('qrcode', plugins_url('assets/js/jquery.qrcode.min.js', WC_Payment_Gateway_Ripple::$plugin_basename), array('jquery'), WC_Payment_Gateway_Ripple::$version, true);
+        wp_enqueue_script('initialize', plugins_url('assets/js/jquery.initialize.js', WC_Payment_Gateway_Ripple::$plugin_basename), array('jquery'), WC_Payment_Gateway_Ripple::$version, true);
         
-        wp_enqueue_script('clipboard', plugins_url('assets/js/clipboard.js', WcRipple::$plugin_basename), array('jquery'), WcRipple::$version, true);
-        wp_enqueue_script('woocommerce_ripple_js', plugins_url('assets/js/ripple.js', WcRipple::$plugin_basename), array(
+        wp_enqueue_script('clipboard', plugins_url('assets/js/clipboard.js', WC_Payment_Gateway_Ripple::$plugin_basename), array('jquery'), WC_Payment_Gateway_Ripple::$version, true);
+        wp_enqueue_script('woocommerce_ripple_js', plugins_url('assets/js/ripple.js', WC_Payment_Gateway_Ripple::$plugin_basename), array(
             'jquery',
-        ), WcRipple::$version, true);
-        wp_enqueue_style('woocommerce_ripple_css', plugins_url('assets/css/ripple.css', WcRipple::$plugin_basename), array(), WcRipple::$version);
+        ), WC_Payment_Gateway_Ripple::$version, true);
+        wp_enqueue_style('woocommerce_ripple_css', plugins_url('assets/css/ripple.css', WC_Payment_Gateway_Ripple::$plugin_basename), array(), WC_Payment_Gateway_Ripple::$version);
 
         // //Add js variables
         $ripple_vars = array(
