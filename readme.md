@@ -1,13 +1,9 @@
-WooCommerce Ripple Gateway
+WooCommerce Payment Gateway Ripple
 ==========
 
-Show prices in XRP and accept Ripple payments in your woocommerce webshop
+Integrate Ripple technology into your WooCommerce webshop and accept payments in any currencies
 
-Like it? 
-
-Donate XRP: rwG1An46e6mz5MJkXsXSqsupHsMU2vcdLY
-
-Donate BTC: 1F6kuw1KtFkgQkUQ3eftmJm6UiNaM5LySs
+Initial project from Casper Mekel https://github.com/caspermekel/woocommerce-ripple-gateway
 
 ## Features
 - Display prices in XRP in store and on checkout
