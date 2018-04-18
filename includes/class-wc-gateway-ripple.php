@@ -161,7 +161,7 @@ class WC_Gateway_Ripple extends WC_Payment_Gateway
                 );
         }
 
-	    $ra = new WC_Gateway_Ripple_Api($this->address);
+	    $ra = new WC_Gateway_Ripple_Data_Api($this->address);
 	    $transaction = $ra->getTransaction( $_POST['tx_hash']);
 
 	    // print_r($transaction);

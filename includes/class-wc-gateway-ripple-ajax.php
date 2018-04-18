@@ -50,7 +50,7 @@ class WC_Gateway_Ripple_Ajax
             exit();
         }
 
-        $ra     = new WC_Gateway_Ripple_Api($options['address']);
+        $ra     = new WC_Gateway_Ripple_Data_Api($options['address']);
         $result = $ra->findByDestinationTag($destination_tag);
 
         $result['match'] = $result['amount'] == $payment_total ? true : false;
